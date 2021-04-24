@@ -49,7 +49,7 @@ const Sidebar = () => {
                         <div
                             className={styles.item}
                             key={index}
-                            onDragStart={(event) => onDragStart(event, service)}>
+                            onDragStart={(event) => onDragStart(event, gateway2.uniqueId, service)}>
                             <p>{service.description}</p>
                         </div>
                     ))}

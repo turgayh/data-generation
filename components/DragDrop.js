@@ -1,7 +1,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useRef } from 'react';
-import ReactFlow, { Controls, Background, ReactFlowProvider } from 'react-flow-renderer';
+import ReactFlow, {
+    Controls,
+    Background,
+    ReactFlowProvider,
+    addEdge,
+    removeElements
+} from 'react-flow-renderer';
 
 const initialElements = [
     {
@@ -35,12 +41,16 @@ const DragDrop = () => {
     const [elements, setElements] = useState(initialElements);
     const reactFlowWrapper = useRef(null);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
-    const onLoad = (_reactFlowInstance) => setReactFlowInstance(_reactFlowInstance);
     const [idx, setIdx] = useState(3);
+    const onLoad = (_reactFlowInstance) => setReactFlowInstance(_reactFlowInstance);
     const onDragOver = (event) => {
         event.preventDefault();
         event.dataTransfer.dropEffect = 'move';
     };
+    const onConnect = (params) => setElements((els) => addEdge(params, els));
+    const onElementsRemove = (elementsToRemove) =>
+        setElements((els) => removeElements(elementsToRemove, els));
+
     const onDrop = (event) => {
         event.preventDefault();
 
@@ -48,7 +58,6 @@ const DragDrop = () => {
         const appId = event.dataTransfer.getData('applicationId');
         let data = event.dataTransfer.getData('service/data');
         data = JSON.parse(data);
-        console.log(data);
         const position = reactFlowInstance.project({
             x: event.clientX - reactFlowBounds.left,
             y: event.clientY - reactFlowBounds.top
@@ -58,6 +67,8 @@ const DragDrop = () => {
             serviceId: data.id,
             applicationId: appId,
             position,
+            request: data.request,
+            response: data.response,
             data: { label: `${data.description}` }
         };
         setIdx(idx + 1);
@@ -78,8 +89,10 @@ const DragDrop = () => {
                     <ReactFlow
                         elements={elements}
                         style={flowStyles}
+                        onConnect={onConnect}
                         onDrop={onDrop}
                         onDragOver={onDragOver}
+                        onElementsRemove={onElementsRemove}
                         onLoad={onLoad}>
                         <Controls />
                         <Background color="red" gap={16} />
