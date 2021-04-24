@@ -1,4 +1,10 @@
-import Layout from '../components/layout';
+import DragDrop from '../components/DragDrop';
+import Layout from '../components/Layout/layout';
 export default function Home() {
-    return <Layout>hello</Layout>;
+    return (
+        <Layout>
+            {' '}
+            <DragDrop />
+        </Layout>
+    );
 }

@@ -1,0 +1,33 @@
+.item {
+    padding: 5px;
+    width: 300px;
+    border: black;
+    border-style: groove;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-drag: element;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    margin: 2px;
+}
+
+.item:hover {
+    background-color: aquamarine;
+}
+
+.title {
+    padding: 5px;
+    width: 300px;
+    border: black;
+    border-style: groove;
+    user-select: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    background-color: burlywood;
+}

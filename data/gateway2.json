@@ -1,0 +1,29 @@
+{
+    "name": "api-gateway-2",
+    "uniqueId": "api-gateway-2",
+    "services": [
+        {
+            "id": "1",
+            "description": "Money transfer to another account",
+            "request": {
+                "customerNo": "",
+                "recieverNo": "",
+                "amount": ""
+            },
+            "response": {
+                "isSuccess": true
+            }
+        },
+        {
+            "id": "2",
+            "description": "Check balance",
+            "request": {
+                "customerNo": ""
+            },
+            "response": {
+                "total-balance": "",
+                "isSuccess": true
+            }
+        }
+    ]
+}

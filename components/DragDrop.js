@@ -1,12 +1,31 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
-import ReactFlow, { MiniMap, Controls, removeElements } from 'react-flow-renderer';
+import ReactFlow, { Controls, Background } from 'react-flow-renderer';
 
 const initialElements = [
     {
         id: '1',
-        type: 'input',
+        type: 'default',
         data: { label: 'Node 1' },
-        position: { x: 5, y: 5 }
+        position: { x: 80, y: 100 }
+    },
+    {
+        id: '2',
+        type: 'default',
+        data: {
+            onclick: () => {
+                alert('hello node');
+            }
+        },
+        position: { x: 50, y: 45 },
+        style: { border: '1px solid #777' }
+    },
+    {
+        id: 'e1-2',
+        source: '1',
+        target: '2',
+        label: 'updatable edge'
     }
 ];
 
@@ -14,23 +33,36 @@ const flowStyles = { height: 300 };
 
 const DragDrop = () => {
     const [elements, setElements] = useState(initialElements);
-    const onElementsRemove = (elementsToRemove) =>
-        setElements((els) => removeElements(elementsToRemove, els));
-    const nodeColor = (node) => {
-        if (node.type === 'input') return 'blue';
-        if (node.type === 'output') return 'green';
-        if (node.type === 'default') return 'red';
+    const [idx, setIdx] = useState(3);
 
-        return 'gray';
-    };
+    function addNewNode() {
+        setElements([
+            ...elements,
+            {
+                id: idx.toString(),
+                type: 'default',
+                position: { x: 50, y: 75 },
+                data: { label: 'hello' }
+            }
+        ]);
+        setIdx(idx + 1);
+    }
 
     return (
         <div>
-            <button>Add Node</button>
-            <ReactFlow elements={elements} style={flowStyles} onElementsRemove={onElementsRemove}>
-                <MiniMap nodeColor={nodeColor} />
+            <button onClick={addNewNode}>Add Node</button>
+            <button
+                onClick={() => {
+                    console.log(elements);
+                }}>
+                Show Data
+            </button>
+
+            <ReactFlow elements={elements} style={flowStyles}>
                 <Controls />
+                <Background color="red" gap={16} />
             </ReactFlow>
+            <br></br>
         </div>
     );
 };
