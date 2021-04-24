@@ -15,6 +15,12 @@ const Sidebar = () => {
     const handleChangeToggle2 = () => {
         setToggle2(!toggle2);
     };
+    const onDragStart = (event, id, data) => {
+        event.dataTransfer.setData('applicationId', id);
+        event.dataTransfer.setData('service/data', JSON.stringify(data));
+        event.dataTransfer.effectAllowed = 'move';
+    };
+
     return (
         <div>
             <div className={styles.title} onClick={handleChangeToggle1}>
@@ -24,7 +30,10 @@ const Sidebar = () => {
             {gateway1 && (
                 <div hidden={toggle1}>
                     {gateway1.services.map((service, index) => (
-                        <div className={styles.item} key={index}>
+                        <div
+                            className={styles.item}
+                            key={index}
+                            onDragStart={(event) => onDragStart(event, gateway1.uniqueId, service)}>
                             <p>{service.description}</p>
                         </div>
                     ))}
@@ -37,7 +46,10 @@ const Sidebar = () => {
             {gateway2 && (
                 <div hidden={toggle2}>
                     {gateway2.services.map((service, index) => (
-                        <div className={styles.item} key={index}>
+                        <div
+                            className={styles.item}
+                            key={index}
+                            onDragStart={(event) => onDragStart(event, service)}>
                             <p>{service.description}</p>
                         </div>
                     ))}

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState } from 'react';
-import ReactFlow, { Controls, Background } from 'react-flow-renderer';
+import React, { useState, useRef } from 'react';
+import ReactFlow, { Controls, Background, ReactFlowProvider } from 'react-flow-renderer';
 
 const initialElements = [
     {
@@ -33,35 +33,59 @@ const flowStyles = { height: 300 };
 
 const DragDrop = () => {
     const [elements, setElements] = useState(initialElements);
+    const reactFlowWrapper = useRef(null);
+    const [reactFlowInstance, setReactFlowInstance] = useState(null);
+    const onLoad = (_reactFlowInstance) => setReactFlowInstance(_reactFlowInstance);
     const [idx, setIdx] = useState(3);
+    const onDragOver = (event) => {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'move';
+    };
+    const onDrop = (event) => {
+        event.preventDefault();
 
-    function addNewNode() {
-        setElements([
-            ...elements,
-            {
-                id: idx.toString(),
-                type: 'default',
-                position: { x: 50, y: 75 },
-                data: { label: 'hello' }
-            }
-        ]);
+        const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+        const appId = event.dataTransfer.getData('applicationId');
+        let data = event.dataTransfer.getData('service/data');
+        data = JSON.parse(data);
+        console.log(data);
+        const position = reactFlowInstance.project({
+            x: event.clientX - reactFlowBounds.left,
+            y: event.clientY - reactFlowBounds.top
+        });
+        const newNode = {
+            id: idx.toString(),
+            serviceId: data.id,
+            applicationId: appId,
+            position,
+            data: { label: `${data.description}` }
+        };
         setIdx(idx + 1);
-    }
+
+        setElements((es) => es.concat(newNode));
+    };
 
     return (
         <div>
-            <button onClick={addNewNode}>Add Node</button>
             <button
                 onClick={() => {
                     console.log(elements);
                 }}>
                 Show Data
             </button>
-
-            <ReactFlow elements={elements} style={flowStyles}>
-                <Controls />
-                <Background color="red" gap={16} />
-            </ReactFlow>
+            <ReactFlowProvider>
+                <div ref={reactFlowWrapper}>
+                    <ReactFlow
+                        elements={elements}
+                        style={flowStyles}
+                        onDrop={onDrop}
+                        onDragOver={onDragOver}
+                        onLoad={onLoad}>
+                        <Controls />
+                        <Background color="red" gap={16} />
+                    </ReactFlow>
+                </div>
+            </ReactFlowProvider>
             <br></br>
         </div>
     );
