@@ -1,0 +1,15 @@
+.container {
+    width: 100%;
+
+    background-color: grey;
+}
+.content {
+    float: left;
+}
+.content1 {
+    float: left;
+}
+.content2 {
+    width: 75%;
+    float: left;
+}

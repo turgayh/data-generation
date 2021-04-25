@@ -5,28 +5,14 @@
         {
             "id": "1",
             "description": "Create individual customer",
-            "request": {
-                "branchCode": "9142",
-                "name": "hakan",
-                "surname": "turgay",
-                "channel": "denizbank"
-            },
-            "response": {
-                "customerId": "123456",
-                "isSuccess": true
-            }
+            "request": ["branchCode", "name", "surname", "channel"],
+            "response": ["customerId", "isSuccess"]
         },
         {
             "id": "2",
             "description": "Create corporate account",
-            "request": {
-                "customerNo": "",
-                "type": "corporate"
-            },
-            "response": {
-                "accountId": "22",
-                "isSuccess": true
-            }
+            "request": ["customerNo", "type"],
+            "response": ["accountId", "isSuccess"]
         }
     ]
 }

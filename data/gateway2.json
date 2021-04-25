@@ -5,25 +5,14 @@
         {
             "id": "1",
             "description": "Money transfer to another account",
-            "request": {
-                "customerNo": "",
-                "recieverNo": "",
-                "amount": ""
-            },
-            "response": {
-                "isSuccess": true
-            }
+            "request": ["customerNo", "recieverNo", "amount"],
+            "response": ["isSuccess"]
         },
         {
             "id": "2",
             "description": "Check balance",
-            "request": {
-                "customerNo": ""
-            },
-            "response": {
-                "total-balance": "",
-                "isSuccess": true
-            }
+            "request": ["customerNo"],
+            "response": ["total-balance", "isSuccess"]
         }
     ]
 }

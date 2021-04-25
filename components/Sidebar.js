@@ -22,11 +22,10 @@ const Sidebar = () => {
     };
 
     return (
-        <div>
+        <div className={styles.main}>
             <div className={styles.title} onClick={handleChangeToggle1}>
                 {gateway1.name}
             </div>
-
             {gateway1 && (
                 <div hidden={toggle1}>
                     {gateway1.services.map((service, index) => (
@@ -42,7 +41,6 @@ const Sidebar = () => {
             <div className={styles.title} onClick={handleChangeToggle2}>
                 {gateway2.name}
             </div>
-
             {gateway2 && (
                 <div hidden={toggle2}>
                     {gateway2.services.map((service, index) => (
