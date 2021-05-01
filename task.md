@@ -1,6 +1,6 @@
 [x] 2 node birlestirme
 [] custom node olustur
 [] stil ver
-[] connector tikliyinca popup cikar alert
-[] drag drop ile node ekle
+[x] connector tikliyinca popup cikar alert
+[x] drag drop ile node ekle
 []

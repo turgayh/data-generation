@@ -8,14 +8,15 @@ import ReactFlow, {
     addEdge,
     removeElements
 } from 'react-flow-renderer';
+import DataMatched from './DataMatch';
 
 const initialElements = [];
-
-const flowStyles = { height: window.innerHeight - 25 };
+const flowStyles = { height: 250 };
 
 const DragDrop = () => {
     const [elements, setElements] = useState(initialElements);
     const reactFlowWrapper = useRef(null);
+    const [selectedNode, setSelectedNode] = useState([]);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
     const [idx, setIdx] = useState(1);
     const onLoad = (_reactFlowInstance) => setReactFlowInstance(_reactFlowInstance);
@@ -29,7 +30,6 @@ const DragDrop = () => {
 
     const onDrop = (event) => {
         event.preventDefault();
-
         const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
         const appId = event.dataTransfer.getData('applicationId');
         let data = event.dataTransfer.getData('service/data');
@@ -40,12 +40,15 @@ const DragDrop = () => {
         });
         const newNode = {
             id: idx.toString(),
-            serviceId: data.id,
-            applicationId: appId,
             position,
-            request: data.request,
-            response: data.response,
-            data: { label: `${data.description}` }
+
+            data: {
+                label: `${data.description}`,
+                request: data.request,
+                serviceId: data.id,
+                applicationId: appId,
+                response: data.response
+            }
         };
         setIdx(idx + 1);
 
@@ -68,8 +71,7 @@ const DragDrop = () => {
                         onConnect={onConnect}
                         onDrop={onDrop}
                         onElementClick={(e, element) => {
-                            alert(e.values);
-                            console.log(element);
+                            setSelectedNode(element);
                         }}
                         onDragOver={onDragOver}
                         onElementsRemove={onElementsRemove}
@@ -80,6 +82,7 @@ const DragDrop = () => {
                 </div>
             </ReactFlowProvider>
             <br></br>
+            <DataMatched props={selectedNode} />
         </div>
     );
 };

@@ -8,6 +8,7 @@ function Layout({ children }) {
             <Head>
                 <title>Hakan`s Web site</title>
             </Head>
+
             <div className={styles.content1}>
                 <Sidebar />
             </div>
